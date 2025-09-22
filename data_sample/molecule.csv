@@ -1,0 +1,21 @@
+﻿molecule_id,name,formula
+1,Eau,H2O
+2,Dioxyde de carbone,CO2
+3,Méthane,CH4
+4,Dioxygène,O2
+5,Chlorure de sodium,NaCl
+6,Ammoniac,NH3
+7,Acide sulfurique,H2SO4
+8,Hydroxyde de sodium,NaOH
+9,Acide chlorhydrique,HCl
+10,Carbonate de calcium,CaCO3
+11,Sulfate de magnésium,MgSO4
+12,Acide phosphorique,H3PO4
+13,Fluorure de sodium,NaF
+14,Iodure de potassium,KI
+15,Sulfure d'hydrogène,H2S
+16,Oxyde d'aluminium,Al2O3
+17,Chlorure de magnésium,MgCl2
+18,Nitrate de potassium,KNO3
+19,Hydroxyde de calcium,Ca(OH)2
+20,Sulfate de cuivre,CuSO4
