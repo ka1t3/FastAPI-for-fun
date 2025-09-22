@@ -1,0 +1,164 @@
+# ChemAPI Authentication Tests
+# Test the secure FastAPI endpoints with API key authentication
+
+### Public endpoints (no authentication required)
+
+GET http://127.0.0.1:8000/
+Accept: application/json
+
+###
+
+GET http://127.0.0.1:8000/health
+Accept: application/json
+
+###
+
+### Authentication tests
+
+# Test without API key - should fail
+GET http://127.0.0.1:8000/api/v1/atoms
+Accept: application/json
+
+###
+
+# Test with invalid API key - should fail
+GET http://127.0.0.1:8000/api/v1/atoms
+Accept: application/json
+X-API-Key: invalid-key
+
+###
+
+# Test authentication endpoint - should work with valid key
+GET http://127.0.0.1:8000/api/v1/auth-test
+Accept: application/json
+X-API-Key: chemapi-user1-key-2024
+
+###
+
+### Atoms endpoints (authenticated users)
+
+# Get all atoms - user access
+GET http://127.0.0.1:8000/api/v1/atoms
+Accept: application/json
+X-API-Key: chemapi-user1-key-2024
+
+###
+
+# Get single atom - user access
+GET http://127.0.0.1:8000/api/v1/atoms/1
+Accept: application/json
+X-API-Key: chemapi-user1-key-2024
+
+###
+
+# Update atom - admin only (should work)
+PUT http://127.0.0.1:8000/api/v1/atoms/1
+Accept: application/json
+Content-Type: application/json
+X-API-Key: chemapi-admin-key-2024
+
+{
+  "name": "Hydrogen Updated"
+}
+
+###
+
+# Update atom - user access (should fail)
+PUT http://127.0.0.1:8000/api/v1/atoms/1
+Accept: application/json
+Content-Type: application/json
+X-API-Key: chemapi-user1-key-2024
+
+{
+  "name": "Hydrogen Updated Again"
+}
+
+###
+
+### Molecules endpoints
+
+# Get all molecules - user access
+GET http://127.0.0.1:8000/api/v1/molecules
+Accept: application/json
+X-API-Key: chemapi-user1-key-2024
+
+###
+
+# Get molecule composition - user access
+GET http://127.0.0.1:8000/api/v1/molecules/1/composition
+Accept: application/json
+X-API-Key: chemapi-user1-key-2024
+
+###
+
+# Update molecule - admin only
+PUT http://127.0.0.1:8000/api/v1/molecules/1
+Accept: application/json
+Content-Type: application/json
+X-API-Key: chemapi-admin-key-2024
+
+{
+  "name": "Water Updated"
+}
+
+###
+
+### Reactions endpoints
+
+# Get all reactions - user access
+GET http://127.0.0.1:8000/api/v1/reactions
+Accept: application/json
+X-API-Key: chemapi-user1-key-2024
+
+###
+
+# Get reaction participants - user access
+GET http://127.0.0.1:8000/api/v1/reactions/1/participants
+Accept: application/json
+X-API-Key: chemapi-user1-key-2024
+
+###
+
+# Update reaction - admin only
+PUT http://127.0.0.1:8000/api/v1/reactions/1
+Accept: application/json
+Content-Type: application/json
+X-API-Key: chemapi-admin-key-2024
+
+{
+  "description": "Updated reaction description"
+}
+
+###
+
+### Statistics endpoint
+
+# Get database stats - authenticated users
+GET http://127.0.0.1:8000/api/v1/stats
+Accept: application/json
+X-API-Key: chemapi-user1-key-2024
+
+###
+
+### Search endpoints
+
+# Search molecules by atom - user access
+GET http://127.0.0.1:8000/api/v1/molecules/search/by-atom/H
+Accept: application/json
+X-API-Key: chemapi-user1-key-2024
+
+###
+
+# Search reactions by molecule - user access
+GET http://127.0.0.1:8000/api/v1/reactions/search/by-molecule/1
+Accept: application/json
+X-API-Key: chemapi-user1-key-2024
+
+###
+
+# Get reaction types - user access
+GET http://127.0.0.1:8000/api/v1/reactions/types
+Accept: application/json
+X-API-Key: chemapi-user1-key-2024
+
+###
