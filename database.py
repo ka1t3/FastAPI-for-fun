@@ -1,28 +1,38 @@
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from decouple import config
-import os
- 
-# Configuration de la base de données
-DATABASE_URL = config('DATABASE_URL', default='sqlite:///./chimie.db')
+import sqlite3
 
-# Création du moteur SQLAlchemy
-engine = create_engine(
-    DATABASE_URL,
-    connect_args={"check_same_thread": False} if "sqlite" in DATABASE_URL else {}
-)
+DATABASE_NAME = "agora.db"
 
-# Configuration de la session
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+def get_db_connection():
+    """Create a database connection."""
+    conn = sqlite3.connect(DATABASE_NAME, check_same_thread=False)
+    conn.row_factory = sqlite3.Row  # Access columns by name
+    return conn
 
-# Base pour les modèles
-Base = declarative_base()
-
+def init_db():
+    """Initialize the database with the notes table."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # Create table if it doesn't exist
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS notes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            sujet TEXT NOT NULL,
+            contenu TEXT NOT NULL,
+            auteur TEXT DEFAULT 'Anonymous',
+            date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
+            votes INTEGER DEFAULT 0,
+            pinned BOOLEAN DEFAULT 0
+        )
+    ''')
+    
+    conn.commit()
+    conn.close()
 
 def get_db():
-    db = SessionLocal()
+    """Dependency for database connections."""
+    conn = get_db_connection()
     try:
-        yield db
+        yield conn
     finally:
-        db.close()
+        conn.close()
