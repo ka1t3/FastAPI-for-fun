@@ -1,6 +1,5 @@
-<<<<<<< HEAD
 # FastAPI-for-fun
-=======
+
 # The Knowledge Agora
 
 **The Knowledge Agora** is a collaborative micro-blogging platform where users can share thoughts, ideas, and knowledge on any topic. Built with **FastAPI** and **SQLite**, it focuses on simplicity, performance, and clean architecture.
