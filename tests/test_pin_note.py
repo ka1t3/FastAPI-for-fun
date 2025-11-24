@@ -2,7 +2,7 @@ def test_pin_note(client):
     # Create a note
     create_response = client.post(
         "/notes",
-        json={"sujet": "Important Note", "contenu": "This should be pinned"}
+        json={"topic": "Important Note", "content": "This should be pinned"}
     )
     note_id = create_response.json()["id"]
     

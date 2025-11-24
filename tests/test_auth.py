@@ -4,7 +4,7 @@ API_KEY = "admin-secret"
 
 def test_delete_note_no_auth(client):
     # Create a note first
-    create_response = client.post("/notes", json={"sujet": "To Delete", "contenu": "..."})
+    create_response = client.post("/notes", json={"topic": "To Delete", "content": "..."})
     note_id = create_response.json()["id"]
     
     # Try to delete without auth header
@@ -14,7 +14,7 @@ def test_delete_note_no_auth(client):
 
 def test_delete_note_invalid_auth(client):
     # Create a note first
-    create_response = client.post("/notes", json={"sujet": "To Delete", "contenu": "..."})
+    create_response = client.post("/notes", json={"topic": "To Delete", "content": "..."})
     note_id = create_response.json()["id"]
     
     # Try to delete with wrong key
@@ -27,7 +27,7 @@ def test_delete_note_invalid_auth(client):
 
 def test_delete_note_valid_auth(client):
     # Create a note first
-    create_response = client.post("/notes", json={"sujet": "To Delete", "contenu": "..."})
+    create_response = client.post("/notes", json={"topic": "To Delete", "content": "..."})
     note_id = create_response.json()["id"]
     
     # Delete with correct key

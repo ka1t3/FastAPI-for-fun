@@ -1,8 +1,12 @@
 import pytest
 from fastapi.testclient import TestClient
 import sqlite3
-from main import app
-from database import get_db
+from app.main import app
+from app.core.database import get_db
+from app.core.limiter import limiter
+
+# Disable rate limiting for tests
+limiter.enabled = False
 
 # Override the database dependency for testing
 @pytest.fixture(name="client")
@@ -16,10 +20,10 @@ def client_fixture():
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS notes (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            sujet TEXT NOT NULL,
-            contenu TEXT NOT NULL,
-            auteur TEXT DEFAULT 'Anonymous',
-            date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
+            topic TEXT NOT NULL,
+            content TEXT NOT NULL,
+            author TEXT DEFAULT 'Anonymous',
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             votes INTEGER DEFAULT 0,
             pinned BOOLEAN DEFAULT 0
         )
